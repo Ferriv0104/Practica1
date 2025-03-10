@@ -1,0 +1,7 @@
+JMP boot
+
+stackTop    EQU 0xFF    ; Initial SP
+txtDisplay  EQU 0x2E0    ; Text display address
+
+Mensaje:    DB "Este mensaje    desaparecerá!"    ; Output string
+	      DB 0                ; String terminator
