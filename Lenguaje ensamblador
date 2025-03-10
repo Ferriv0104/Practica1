@@ -29,9 +29,20 @@ borrar:
     DEC B
     JNZ borrar
 
-    HLT                ; Halt execution
+    HLT                
 
-print:                ; Print string
+print:               
     PUSH A
     PUSH B
     MOV B, 0
+.loop:
+    MOVB AL, [C]        
+    MOVB [D], AL        
+    INC C
+    INC D
+    CMPB BL, [C]       
+    JNZ .loop            
+
+    POP B
+    POP A
+    RET
