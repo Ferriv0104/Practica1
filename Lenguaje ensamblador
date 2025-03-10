@@ -1,7 +1,25 @@
-JMP boot
+#EQUIPO 1 
+#INTEGRANTES DEL EQUIPO: 
+#CORDOBA MARTINEZ JOSE JULIAN 
+#HERNANDEZ LOEZA JOSE MAXIMILIANO 
+#LIBREROS PONCE ANGEL JESUS 
+#RIVERA VEGA MARIA FERNANDA 
 
-stackTop    EQU 0xFF    ; Initial SP
-txtDisplay  EQU 0x2E0    ; Text display address
+JMP boot ; Hará un salto hasta donde aparece "boot" 
 
-Mensaje:    DB "Este mensaje    desaparecerá!"    ; Output string
-	      DB 0                ; String terminator
+stackTop    EQU 0xFF    ; Define el valor de la parte superior de la pila (Stack Pointer Inicial) 
+txtDisplay  EQU 0x2E0    ; Dirección de memoria donde se mostrara el texto
+
+Mensaje:    DB "Este mensaje    desaparecerá!"    ; El mensaje que se mostrará en el display de 16x2 
+	      DB 0                ; Indica donde termina la cadena para asi evitar que lea otros datos
+boot:
+    MOV SP, stackTop    ; Configura el SP en la dirección que definimos en stackTop 
+    MOV C, Mensaje        ; Carga en el registro C la direccion de inicio del mensaje a imprimir 
+    MOV D, txtDisplay    ; Carga en el registro D la direccion de donde se mostrara el texto 
+    CALL print   ; Llama a la subrutina imprimir para mostrar el mensaje en la pantalla 
+
+    CALL delay            ; Llamada a la subrutina de retraso para generar una pausa antes de borrar el mensaje 
+
+    ; Sobreescribe la memoria con espacios en blanco
+    MOV C, txtDisplay    ; Carga en el registro C la dirección de la pantalla donde se imprimio el mensaje 
+    MOV B, 29            ; Longitud del mensaje para despues borrarlo 
