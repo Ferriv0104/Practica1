@@ -23,3 +23,15 @@ boot:
     ; Sobreescribe la memoria con espacios en blanco
     MOV C, txtDisplay    ; Carga en el registro C la dirección de la pantalla donde se imprimio el mensaje 
     MOV B, 29            ; Longitud del mensaje para despues borrarlo 
+borrar:
+    MOVB [C], 32        ; Escribe un espacio en blanco
+    INC C
+    DEC B
+    JNZ borrar
+
+    HLT                ; Halt execution
+
+print:                ; Print string
+    PUSH A
+    PUSH B
+    MOV B, 0
