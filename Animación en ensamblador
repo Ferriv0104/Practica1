@@ -71,3 +71,27 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
+boot:
+MOV SP, stackTop ; Inicializa la pila
+MOV C, sprite1 ; C apunta al primer sprite
+MOV D, vslDisplay ; D apunta al display
+.loop1:
+MOVB AL, [C] ; Obtener el siguiente pixel del sprite
+MOVB [D], AL ; Escribir el pixel en el display
+INC C ; Mover al siguiente byte en el sprite
+INC D ; Mover al siguiente byte en el display
+CMP D, 0x400 ; Verificar si hemos alcanzado el final del display
+JNZ .loop1 ; Si no hemos llegado al final, continuar con el siguiente pixel
+MOV C, sprite2 ; Apuntar al segundo sprite
+MOV D, vslDisplay ; Reiniciar la dirección del display
+.loop2:
+MOVB AL, [C] ; Obtener el siguiente pixel del sprite
+MOVB [D], AL ; Escribir el pixel en el display
+INC C ; Mover al siguiente byte en el sprite
+INC D ; Mover al siguiente byte en el display
+CMP D, 0x400 ; Verificar si hemos alcanzado el final del display
+JNZ .loop2 ; Si no hemos llegado al final, continuar con el siguiente pixel
+
+MOV D, vslDisplay ; Reiniciar la dirección del display
+MOV C, sprite1 ; Apuntar al primer sprite
+JMP .loop1 ; Repetir el ciclo con el primer sprite
