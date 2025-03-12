@@ -7,7 +7,7 @@
 
 	JMP boot
 
-stackTop    EQU 0xFF    ; Initial SP
+stackTop    EQU 0xFF    ;Stack Pointer inicial
 vslDisplay  EQU 0x2E0
 sprite1:
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
