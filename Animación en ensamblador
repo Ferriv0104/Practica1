@@ -1,15 +1,15 @@
-#EQUIPO 1 
-#INTEGRANTES DEL EQUIPO: 
-#CORDOBA MARTINEZ JOSE JULIAN 
-#HERNANDEZ LOEZA JOSE MAXIMILIANO 
-#LIBREROS PONCE ANGEL JESUS 
-#RIVERA VEGA MARIA FERNANDA 
+;EQUIPO 1 
+;INTEGRANTES DEL EQUIPO: 
+;CORDOBA MARTINEZ JOSE JULIAN 
+;HERNANDEZ LOEZA JOSE MAXIMILIANO 
+;LIBREROS PONCE ANGEL JESUS 
+;RIVERA VEGA MARIA FERNANDA 
 
 	JMP boot
-
-stackTop    EQU 0xFF    ;Stack Pointer inicial
-vslDisplay  EQU 0x2E0
-sprite1:
+stackTop    EQU 0xFF    ;Stack Pointer inicial (definimos el stack pointer como 0xFF esta sera su direccion inicial)
+vslDisplay  EQU 0x2E0   ;Definimos vslDisplay como 0x2E0 (direccion de memoria)	
+sprite1: ;(Inicio de nuestro primer sprite)
+         ;Comenzamos a dibujar nuestro sprite, cada DB almacena una serie de bytes en memoria, los \x00 son espacios vacios y los \xC4 representas bytes con caracteres especiales
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -42,7 +42,7 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
-sprite2:
+sprite2:	;Inicia el segundo sprite
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -75,7 +75,7 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
-boot:
+boot:	;Etiqueta boot para el punto de entrada o iniciacion del sistema
 MOV SP, stackTop ; Inicializa la pila
 MOV C, sprite1 ; C apunta al primer sprite
 MOV D, vslDisplay ; D apunta al display
