@@ -5,9 +5,9 @@
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
 JMP boot
-stackTop EQU 0xFF
+stackTop EQU 0xFF    ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
 vslDisplay EQU 0x300 ; Dirección de la pantalla (frame buffer)
-sprite1:
+sprite1:    ;Inicio de nuestro primer sprite
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -41,7 +41,7 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-sprite2:
+sprite2:      ;Inicia el segundo sprite
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -75,7 +75,7 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-boot:
+boot:    ;Etiqueta boot para el punto de entrada o iniciacion del sistema
 MOV SP, stackTop ; Inicializa la pila
 MOV C, sprite1 ; C apunta al primer sprite
 MOV D, vslDisplay ; D apunta al display
@@ -84,3 +84,14 @@ MOVB AL, [C] ; Obtener el siguiente pixel del sprite
 MOVB [D], AL ; Escribir el pixel en el display
 INC C ; Mover al siguiente byte en el sprite
 INC D ; Mover al siguiente byte en el display
+.loop2:
+MOVB AL, [C] ; Obtener el siguiente pixel del sprite
+MOVB [D], AL ; Escribir el pixel en el display
+INC C ; Mover al siguiente byte en el sprite
+INC D ; Mover al siguiente byte en el display
+CMP D, 0x400 ; Verificar si hemos alcanzado el final del display
+JNZ .loop2 ; Si no hemos llegado al final, continuar con el siguiente pixel
+
+MOV D, vslDisplay ; Reiniciar la dirección del display
+MOV C, sprite1 ; Apuntar al primer sprite
+JMP .loop1 ; Repetir el ciclo con el primer sprite
