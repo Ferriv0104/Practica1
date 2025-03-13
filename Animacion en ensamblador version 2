@@ -4,6 +4,7 @@
 ;HERNANDEZ LOEZA JOSE MAXIMILIANO 
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
+;Version 1.2
 JMP boot
 stackTop EQU 0xFF    ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
 vslDisplay EQU 0x300 ; Dirección de la pantalla (frame buffer)
