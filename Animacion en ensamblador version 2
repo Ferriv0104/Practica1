@@ -5,11 +5,12 @@
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
 
-JMP boot; Salta al la inicialización del programa
-stackTop EQU 0xFF    ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
-vslDisplay EQU 0x300 ; Dirección de memoria del display gráfico(frame buffer)
+JMP boot                  ; Salta al la inicialización del programa
+stackTop EQU 0xFF         ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
+vslDisplay EQU 0x300      ; Dirección de memoria del display gráfico(frame buffer)
 
-sprite1:    ;Inicio de nuestro primer sprite
+;Inicio de nuestro primer sprite
+sprite1:    
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -43,7 +44,8 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-sprite2:      ;Inicia el segundo sprite
+;Inicia el segundo sprite
+sprite2:      
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -77,30 +79,30 @@ DB "\x00\x00\x00\xC4\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-boot:    ;Etiqueta boot para el punto de entrada
-MOV SP, stackTop ; Inicializa la pila
-MOV C, sprite1 ; C apunta al primer sprite
-MOV D, vslDisplay ; D apunta al display
+boot:                  ;Etiqueta boot para el punto de entrada
+MOV SP, stackTop       ; Inicializa la pila
+MOV C, sprite1         ; C apunta al primer sprite
+MOV D, vslDisplay      ; D apunta al display
 
-.loop1: ;Loop del primer sprite    
-MOVB AL, [C] ; Obtener el siguiente pixel del sprite
-MOVB [D], AL ; Escribir el pixel en el display
-INC C ; Mover al siguiente byte en el sprite
-INC D ; Mover al siguiente byte en el display
-CMP D, 0x400 ; Verificar si hemos alcanzado el final del display con el contador
-JNZ .loop1 ; Si no hemos llegado al final, continuar con el siguiente pixel
-MOV C, sprite2 ; Apuntar al segundo sprite
-MOV D, vslDisplay ; Reiniciar la dirección del display
+.loop1:                  ;Loop del primer sprite    
+MOVB AL, [C]             ; Obtener el siguiente pixel del sprite
+MOVB [D], AL             ; Escribir el pixel en el display
+INC C                    ; Mover al siguiente byte en el sprite
+INC D                    ; Mover al siguiente byte en el display
+CMP D, 0x400             ; Verificar si hemos alcanzado el final del display con el contador
+JNZ .loop1               ; Si no hemos llegado al final, continuar con el siguiente pixel
+MOV C, sprite2           ; Apuntar al segundo sprite
+MOV D, vslDisplay        ; Reiniciar la dirección del display
 
-.loop2: ;Loop del segundo sprite    
-MOVB AL, [C] ; Obtener el siguiente pixel del sprite
-MOVB [D], AL ; Escribir el pixel en el display
-INC C ; Mover al siguiente byte en el sprite
-INC D ; Mover al siguiente byte en el display
-CMP D, 0x400 ; Verificar si hemos alcanzado el final del display con un contador
-JNZ .loop2 ; Si no hemos llegado al final, continuar con el siguiente pixel
+.loop2:              ;Loop del segundo sprite    
+MOVB AL, [C]         ; Obtener el siguiente pixel del sprite
+MOVB [D], AL         ; Escribir el pixel en el display
+INC C                ; Mover al siguiente byte en el sprite
+INC D                ; Mover al siguiente byte en el display
+CMP D, 0x400         ; Verificar si hemos alcanzado el final del display con un contador
+JNZ .loop2           ; Si no hemos llegado al final, continuar con el siguiente pixel
 
 ;Reiniciar la memoria del display y reiniciar la secuencia de los sprites 
-MOV D, vslDisplay ; Reiniciar la dirección del display
-MOV C, sprite1 ; Apuntar al primer sprite
-JMP .loop1 ; Repetir el ciclo con el primer sprite
+MOV D, vslDisplay          ; Reiniciar la dirección del display
+MOV C, sprite1             ; Apuntar al primer sprite
+JMP .loop1                 ; Repetir el ciclo con el primer sprite
