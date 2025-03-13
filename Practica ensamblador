@@ -7,11 +7,11 @@
 
 
 JMP boot			; Salta al la inicialización del programa
-stackTop EQU 0xFF    		;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
+stackTop EQU 0xFF    		; Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
 vslDisplay EQU 0x300 		; Dirección de memoria del display gráfico(frame buffer)
 txtDisplay  EQU 0x2E0    	; Dirección de memoria donde se mostrara el texto
 
-;Inicio de nuestro primer sprite
+; Inicio de nuestro primer sprite
 sprite1:    
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -46,7 +46,7 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-;Inicia el segundo sprite
+; Inicia el segundo sprite
 sprite2:      
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -104,7 +104,7 @@ boot:
     MOV C, sprite1    		; C apunta al primer sprite
     MOV D, vslDisplay 		; D apunta al display
 
-.loop1:             		;Loop del primer sprite    
+.loop1:             		; Loop del primer sprite    
     MOVB AL, [C]    		; Obtener el siguiente pixel del sprite
     MOVB [D], AL    		; Escribir el pixel en el display
     INC C           		; Mover al siguiente byte en el sprite
@@ -114,7 +114,7 @@ boot:
     MOV C, sprite2  		; Apuntar al segundo sprite
     MOV D, vslDisplay 		; Reiniciar la dirección del display
 
-.loop2: 		;Loop del segundo sprite    
+.loop2: 		; Loop del segundo sprite    
     MOVB AL, [C] 	; Obtener el siguiente pixel del sprite
     MOVB [D], AL 	; Escribir el pixel en el display
     INC C 		; Mover al siguiente byte en el sprite
