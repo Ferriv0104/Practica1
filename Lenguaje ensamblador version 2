@@ -4,6 +4,7 @@
 ;HERNANDEZ LOEZA JOSE MAXIMILIANO 
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
+;Version 1.2
 
 JMP boot ; Hará un salto hasta donde aparece "boot" 
 
