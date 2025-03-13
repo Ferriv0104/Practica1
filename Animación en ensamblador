@@ -4,6 +4,7 @@
 ;HERNANDEZ LOEZA JOSE MAXIMILIANO 
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
+;Version 1.1
 
 	JMP boot
 stackTop    EQU 0xFF    ;Stack Pointer inicial (definimos el stack pointer como 0xFF esta sera su direccion inicial)
