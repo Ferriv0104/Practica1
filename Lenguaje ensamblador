@@ -4,7 +4,7 @@
 ;HERNANDEZ LOEZA JOSE MAXIMILIANO 
 ;LIBREROS PONCE ANGEL JESUS 
 ;RIVERA VEGA MARIA FERNANDA 
-
+;Version 1.1
 JMP boot ; Hará un salto hasta donde aparece "boot" 
 
 stackTop    EQU 0xFF    ; Define el valor de la parte superior de la pila (Stack Pointer Inicial) 
