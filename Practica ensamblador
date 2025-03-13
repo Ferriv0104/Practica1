@@ -6,12 +6,13 @@
 ;RIVERA VEGA MARIA FERNANDA 
 
 
-JMP boot; Salta al la inicialización del programa
-stackTop EQU 0xFF    ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
-vslDisplay EQU 0x300 ; Dirección de memoria del display gráfico(frame buffer)
-txtDisplay  EQU 0x2E0    ; Dirección de memoria donde se mostrara el texto
+JMP boot			; Salta al la inicialización del programa
+stackTop EQU 0xFF    		;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
+vslDisplay EQU 0x300 		; Dirección de memoria del display gráfico(frame buffer)
+txtDisplay  EQU 0x2E0    	; Dirección de memoria donde se mostrara el texto
 
-sprite1:    ;Inicio de nuestro primer sprite
+;Inicio de nuestro primer sprite
+sprite1:    
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -45,7 +46,8 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-sprite2:      ;Inicia el segundo sprite
+;Inicia el segundo sprite
+sprite2:      
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
@@ -80,71 +82,71 @@ DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
 Mensaje:  DB "Este mensaje    desaparecerá!"    ; El mensaje que se mostrará en el display de 16x2 
-	      DB 0                ; Indica donde termina la cadena para asi evitar que lea otros datos
+	      DB 0                              ; Indica donde termina la cadena para asi evitar que lea otros datos
 
 boot:
     MOV SP, stackTop    ; Configura el SP en la dirección que definimos en stackTop 
-    MOV C, Mensaje        ; Carga en el registro C la direccion de inicio del mensaje a imprimir 
-    MOV D, txtDisplay    ; Carga en el registro D la direccion de donde se mostrara el texto 
-    CALL print   ; Llama a la subrutina imprimir para mostrar el mensaje en la pantalla 
+    MOV C, Mensaje      ; Carga en el registro C la direccion de inicio del mensaje a imprimir 
+    MOV D, txtDisplay   ; Carga en el registro D la direccion de donde se mostrara el texto 
+    CALL print          ; Llama a la subrutina imprimir para mostrar el mensaje en la pantalla 
 
-    CALL delay            ; Llamada a la subrutina de retraso para generar una pausa antes de borrar el mensaje 
+    CALL delay          ; Llamada a la subrutina de retraso para generar una pausa antes de borrar el mensaje 
 
     ; Sobreescribe la memoria con espacios en blanco
     MOV C, txtDisplay    ; Carga en el registro C la dirección de la pantalla donde se imprimio el mensaje 
     MOV B, 29            ; Longitud del mensaje para despues borrarlo 
-	borrar:			 ; Se define una etiqueta para el comienzo del bucle borrado
+	borrar:		 ; Se define una etiqueta para el comienzo del bucle borrado
     MOVB [C], 32         ; Escribe un espacio en blanco ya que el valor 32 representa el carácter espacio en blanco (' ') en ASCII
     INC C		 ; Incrementa el registro C para apuntar a la siguiente posicion de memoria
     DEC B		 ; Disminuye el valor de B en 1
     JNZ borrar		 ; JNZ es una instruccion de salto, en este caso se utilizo para repetir el proceso de borrado hasta que B llegue a 0
 
-    MOV C, sprite1 ; C apunta al primer sprite
-    MOV D, vslDisplay ; D apunta al display
+    MOV C, sprite1    		; C apunta al primer sprite
+    MOV D, vslDisplay 		; D apunta al display
 
-.loop1: ;Loop del primer sprite    
-    MOVB AL, [C] ; Obtener el siguiente pixel del sprite
-    MOVB [D], AL ; Escribir el pixel en el display
-    INC C ; Mover al siguiente byte en el sprite
-    INC D ; Mover al siguiente byte en el display
-    CMP D, 0x400 ; Verificar si hemos alcanzado el final del display con el contador
-    JNZ .loop1 ; Si no hemos llegado al final, continuar con el siguiente pixel
-    MOV C, sprite2 ; Apuntar al segundo sprite
-    MOV D, vslDisplay ; Reiniciar la dirección del display
+.loop1:             		;Loop del primer sprite    
+    MOVB AL, [C]    		; Obtener el siguiente pixel del sprite
+    MOVB [D], AL    		; Escribir el pixel en el display
+    INC C           		; Mover al siguiente byte en el sprite
+    INC D           		; Mover al siguiente byte en el display
+    CMP D, 0x400   	 	; Verificar si hemos alcanzado el final del display con el contador
+    JNZ .loop1      		; Si no hemos llegado al final, continuar con el siguiente pixel
+    MOV C, sprite2  		; Apuntar al segundo sprite
+    MOV D, vslDisplay 		; Reiniciar la dirección del display
 
-.loop2: ;Loop del segundo sprite    
-    MOVB AL, [C] ; Obtener el siguiente pixel del sprite
-    MOVB [D], AL ; Escribir el pixel en el display
-    INC C ; Mover al siguiente byte en el sprite
-    INC D ; Mover al siguiente byte en el display
-    CMP D, 0x400 ; Verificar si hemos alcanzado el final del display con un contador
-    JNZ .loop2 ; Si no hemos llegado al final, continuar con el siguiente
+.loop2: 		;Loop del segundo sprite    
+    MOVB AL, [C] 	; Obtener el siguiente pixel del sprite
+    MOVB [D], AL 	; Escribir el pixel en el display
+    INC C 		; Mover al siguiente byte en el sprite
+    INC D 		; Mover al siguiente byte en el display
+    CMP D, 0x400 	; Verificar si hemos alcanzado el final del display con un contador
+    JNZ .loop2 		; Si no hemos llegado al final, continuar con el siguiente
  
- ;Reiniciar la memoria del display y reiniciar la secuencia de los sprites 
-    MOV D, vslDisplay ; Reiniciar la dirección del display
-    MOV C, sprite1 ; Apuntar al primer sprite
-    JMP .loop1 ; Repetir el ciclo con el primer sprite
+ 	;Reiniciar la memoria del display y reiniciar la secuencia de los sprites 
+    MOV D, vslDisplay 	; Reiniciar la dirección del display
+    MOV C, sprite1 	; Apuntar al primer sprite
+    JMP .loop1 		; Repetir el ciclo con el primer sprite
 
 print:               
-    PUSH A ; Guardara el valor actual del registro A en la pila 
-    PUSH B ; Guarda el valor actual del registro B en la pila 
-    MOV B, 0 ; B = 0 para detectar el final del mensaje 
+    PUSH A 		; Guardara el valor actual del registro A en la pila 
+    PUSH B 		; Guarda el valor actual del registro B en la pila 
+    MOV B, 0 		; B = 0 para detectar el final del mensaje 
 .loop:
-    MOVB AL, [C] ; Carga en AL el caracter actual del mensaje        
-    MOVB [D], AL ; Lo copia en la pantalla      
-    INC C ; Pasa al siguiente carácter del mensaje 
-    INC D ; Pasa a la siguiente posición en la pantalla 
-    CMPB BL, [C] ; Compara el BL con el contenido de la nueva posición de C para verificar que es el final del mensaje      
-    JNZ .loop  ; Si no es el final, sigue copiando           
+    MOVB AL, [C] 	; Carga en AL el caracter actual del mensaje        
+    MOVB [D], AL 	; Lo copia en la pantalla      
+    INC C 		; Pasa al siguiente carácter del mensaje 
+    INC D 		; Pasa a la siguiente posición en la pantalla 
+    CMPB BL, [C] 	; Compara el BL con el contenido de la nueva posición de C para verificar que es el final del mensaje      
+    JNZ .loop  		; Si no es el final, sigue copiando           
 
-    POP B ; Restaura el valor original de B desde la pila 
-    POP A ; Restaura el valor original de A desde la pila
-    RET ; Retorna la subrutina
+    POP B 	; Restaura el valor original de B desde la pila 
+    POP A 	; Restaura el valor original de A desde la pila
+    RET 	; Retorna la subrutina
 
 delay:
-    ; Subrutina de retraso para generar una pausa
-    MOV B, 0xFF ; Valor para el retraso
+    			; Subrutina de retraso para generar una pausa
+    MOV B, 0xFF 	; Valor para el retraso
 .delayLoop:
-    DEC B ; Decrementa el valor de B
-    JNZ .delayLoop ; Si B no es cero, repite el loop
-    RET ; Retorna la subrutina
+    DEC B 		; Decrementa el valor de B
+    JNZ .delayLoop 	; Si B no es cero, repite el loop
+    RET 		; Retorna la subrutina
