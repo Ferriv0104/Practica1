@@ -32,17 +32,17 @@ borrar:			 ; Se define una etiqueta para el comienzo del bucle borrado
     HLT                  ; Detiene la ejecución del programa despues de borrar el mensaje 
 
 print:               
-    PUSH A
-    PUSH B
-    MOV B, 0
+    PUSH A ; Guardara el valor actual del registro A en la pila 
+    PUSH B ; Guarda el valor actual del registro B en la pila 
+    MOV B, 0 ; B = 0 para detectar el final del mensaje 
 .loop:
-    MOVB AL, [C]        
-    MOVB [D], AL        
-    INC C
-    INC D
-    CMPB BL, [C]       
-    JNZ .loop            
+    MOVB AL, [C] ; Carga en AL el caracter actual del mensaje        
+    MOVB [D], AL ; Lo copia en la pantalla      
+    INC C ; Pasa al siguiente carácter del mensaje 
+    INC D ; Pasa a la siguiente posición en la pantalla 
+    CMPB BL, [C] ; Compara el BL con el contenido de la nueva posición de C para verificar que es el final del mensaje      
+    JNZ .loop  ; Si no es el final, sigue copiando           
 
-    POP B
-    POP A
-    RET
+    POP B ; Restaura el valor original de B desde la pila 
+    POP A ; Restaura el valor original de A desde la pila
+    RET ; Retorna la subrutina 
