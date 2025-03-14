@@ -6,7 +6,7 @@
 ;RIVERA VEGA MARIA FERNANDA 
 
 JMP boot                  ; Salta al la inicialización del programa
-stackTop EQU 0xFF         ;Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
+stackTop EQU 0xFF         ; Stack pointer inicial (definimos el SP como 0xFF esta sera su direccion inicial)
 vslDisplay EQU 0x300      ; Dirección de memoria del display gráfico(frame buffer)
 
 ;Inicio de nuestro primer sprite
@@ -79,12 +79,12 @@ DB "\x00\x00\x00\xC4\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 DB "\x00\x00\x00\x00\x00\x00\x00\x00"
 
-boot:                  ;Etiqueta boot para el punto de entrada
+boot:                  ; Etiqueta boot para el punto de entrada
 MOV SP, stackTop       ; Inicializa la pila
 MOV C, sprite1         ; C apunta al primer sprite
 MOV D, vslDisplay      ; D apunta al display
 
-.loop1:                  ;Loop del primer sprite    
+.loop1:                  ; Loop del primer sprite    
 MOVB AL, [C]             ; Obtener el siguiente pixel del sprite
 MOVB [D], AL             ; Escribir el pixel en el display
 INC C                    ; Mover al siguiente byte en el sprite
@@ -94,7 +94,7 @@ JNZ .loop1               ; Si no hemos llegado al final, continuar con el siguie
 MOV C, sprite2           ; Apuntar al segundo sprite
 MOV D, vslDisplay        ; Reiniciar la dirección del display
 
-.loop2:              ;Loop del segundo sprite    
+.loop2:              ; Loop del segundo sprite    
 MOVB AL, [C]         ; Obtener el siguiente pixel del sprite
 MOVB [D], AL         ; Escribir el pixel en el display
 INC C                ; Mover al siguiente byte en el sprite
